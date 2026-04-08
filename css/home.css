@@ -1,0 +1,72 @@
+.home_main{
+    background: #8065A8;
+    height: 580px;
+    margin-top: 15px;
+    position: relative;
+    padding-left: 24px;
+    padding-right: 24px;
+}
+
+.btn_home{
+    background: none;
+    border: none;
+    cursor: pointer; 
+    position: absolute; 
+}
+
+.btn_home img{
+    border-radius: 50%;
+    transition: all 0.2s ease;
+}
+
+.btn_home:hover img{
+    box-shadow: 0 0 20px 12px #D83F87;
+}
+.btn_home_rm{
+    max-width: 300px;
+    top:12px;
+    left:13px;
+}
+
+.btn_home_jin{
+    max-width: 250px;
+    top: 60px;
+    left: 250px;
+}
+
+.btn_home_suga{
+    max-width: 250px;
+    top: 240px;
+    left:20px;
+}
+
+.btn_home_jhope{
+    max-width: 200px;
+    top:345px;
+    left:300px;
+}
+
+.btn_home_jimin{
+    max-width: 300px;
+    top:45px;
+    left: 920px;
+}
+
+.btn_home_v{
+    max-width: 250px;
+    top:195px;
+    left: 750px;
+}
+
+.btn_home_jk{
+    max-width: 250px;
+    top:310px;
+    left: 920px;
+}
+
+.btn_home_bts{
+    max-width: 150px;
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+}

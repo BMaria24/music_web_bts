@@ -1,0 +1,30 @@
+@import url('https://fonts.googleapis.com/css2?family=Labrada:ital,wght@0,100..900;1,100..900&display=swap');
+
+html {
+    scroll-behavior: smooth;
+} 
+
+body{
+    font-family: "Labrada", serif;
+    background-color: #2A1B3D;
+    color: #fff;
+    margin: 0;
+}
+
+a {
+    color: #fff;
+    text-decoration: none;
+}
+
+ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.container {
+    max-width: 1240px;
+    margin-left: auto;
+    margin-right: auto;
+    padding: 0 15px;
+}

@@ -1,0 +1,39 @@
+.header {
+    display: flex;
+    background-color: #44318D;
+    align-items: center;
+    gap: 61px;
+    padding: 16px;
+    max-width: 1280px;
+    height: 20px;
+    border-radius: 15px;
+    margin-left: auto;
+    margin-right: auto;
+    z-index: 100;
+    position: sticky;
+    top: 0;
+}
+.account_btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.header_logo {
+    max-width: 40px;
+    display: block;
+}
+
+.header_nav a {
+    font-size: 18px;
+    transition: color 0.3s ease;
+}
+
+.header_nav a:hover {
+    color: #D83F87;
+}
+
+.header_list {
+    display: flex;
+    gap: 39px;
+}
