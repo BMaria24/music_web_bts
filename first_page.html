@@ -15,7 +15,7 @@
             <ul class="header_list">
                 <li><a href="#home_main">Home</a></li>
                 <li><a href="#albums_main">Albums</a></li>
-                <li><a href="#!">Songs</a></li>
+                <li><a href="#songs_section">Songs</a></li>
             </ul>
         </nav>
     </header>
@@ -60,11 +60,75 @@
                     </button>
                 </div>
             </section>
+
+            <section id="songs_section" class="songs-section">
+                <h2 id="songsAlbumTitle" class="songs-album-title"></h2>
+                <div class="songs-tracklist" id="songsTracklist"></div>
+            </section>
         </div>
     </main>
+
+    <div class="player-bar" id="playerBar">
+        <div class="player-content">
+            <!-- Название трека -->
+            <span id="playerTrackTitle" class="player-track-name">Название трека</span>
+            
+            <!-- Кнопки управления -->
+            <div class="player-controls">
+                <!-- Лайк -->
+                <button id="playerLikeBtn" class="player-like-btn">
+                    <img id="playerLikeIcon" src="./images/player/like_empty_player.png" alt="Like">
+                </button>
+                
+                <!-- Назад -->
+                <button id="prevTrack" class="player-ctrl-btn">
+                    <img src="./images/player/prev.png" alt="Назад">
+                </button>
+                
+                <!-- Play/Pause -->
+                <button id="playPauseBtn" class="player-ctrl-btn player-play-main">
+                    <img id="playPauseIcon" src="./images/player/play.png" alt="Play">
+                </button>
+                
+                <!-- Вперёд -->
+                <button id="nextTrack" class="player-ctrl-btn">
+                    <img src="./images/player/next.png" alt="Вперёд">
+                </button>
+                
+                <!-- Repeat -->
+                <button id="repeatBtn" class="player-repeat-btn" title="Играть подряд">
+                    <img id="repeatIcon" src="./images/player/repeat_all.png" alt="Repeat">
+                </button>
+            </div>
+        </div>
+    
+    <!-- Прогресс-бар -->
+        <div class="player-progress-wrapper">
+            <span class="player-time" id="currentTime">0:00</span>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="player-time" id="durationTime">0:00</span>
+        </div>
+        
+        <audio id="audioPlayer" preload="auto"></audio>
+    </div>
+    <!-- Модалка "Добавить в плейлист" -->
+    <div class="playlist-modal-overlay" id="playlistModal">
+        <div class="playlist-modal">
+            <h3>Добавить в плейлист</h3>
+            <div class="playlist-list" id="playlistList"></div>
+            <div class="playlist-create">
+                <input type="text" id="newPlaylistName" placeholder="Название нового плейлиста">
+                <button id="createPlaylistBtn">Создать</button>
+            </div>
+        </div>
+    </div>
     <script src="./js/albums_data.js"></script>
+    <script src="./js/songs_data.js"></script>
     <script src="./js/render.js"></script>
     <script src="./js/slider.js"></script>
+    <script src="./js/player.js"></script>
     <script src="./js/main.js"></script>
 </body>
 </html>

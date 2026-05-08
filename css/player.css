@@ -1,0 +1,195 @@
+/* ==================== НИЖНИЙ ПЛЕЕР ==================== */
+/* Весь плеер — закреплён внизу экрана */
+.player-bar {
+    position: fixed;
+    bottom: 0;
+    left: 50%;                    /* Сдвигаем в центр */
+    transform: translateX(-50%);  /* Ровно по центру */
+    width: 100%;                  /* На всю ширину */
+    max-width: 1400px;            /* Но не больше 1400px */
+    background: #D83F87;
+    border-radius: 15px 15px 0 0; /* Скругление только сверху */
+    z-index: 999;
+    padding: 12px 0 10px;
+    box-sizing: border-box;
+}
+
+/* Внутренний контейнер — всё в одну строку */
+.player-content {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;   /* ← не space-between, всё слева */
+    max-width: 1300px;
+    margin: 0 auto;
+    padding: 0 30px;
+    position: relative;            /* ← чтобы кнопки центрировать */
+}
+
+/* ==================== НАЗВАНИЕ ТРЕКА (слева) ==================== */
+.player-track-name {
+    font-size: 30px;              /* Размер шрифта — меняй */
+    font-weight: 500;             /* Жирность */
+    color: #fff;                  /* Белый цвет */
+    white-space: nowrap;          /* Не переносить на новую строку */
+    overflow: hidden;             /* Скрывать лишнее */
+    text-overflow: ellipsis;      /* Многоточие если не влезает */
+    max-width: 250px;             /* Максимальная ширина названия — меняй */
+    flex-shrink: 0;               /* Не сжимается */
+}
+
+/* ==================== КНОПКИ УПРАВЛЕНИЯ ==================== */
+.player-controls {
+    position: absolute;            /* ← абсолютное позиционирование */
+    left: 50%;                     /* ← центр */
+    transform: translateX(-50%);    /* ← ровно по центру */
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    flex-shrink: 0;
+}
+/* Лайк */
+.player-like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+}
+
+.player-like-btn img {
+    width: 26px;
+    height: 26px;
+}
+
+/* Prev и Next */
+.player-ctrl-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    transition: transform 0.2s;
+    padding: 4px;
+}
+
+.player-ctrl-btn:hover {
+    transform: scale(1.1);
+}
+
+.player-ctrl-btn img {
+    width: 25px;
+    height: 25px;
+}
+
+/* Play/Pause — круглая розовая */
+.player-play-main {border: none;
+    border-radius: 50%;
+    width: 44px;
+    height: 44px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+    flex-shrink: 0;
+}
+
+.player-play-main:hover {
+    transform: scale(1.02);
+}
+
+.player-play-main img {
+    width: 50px;
+    height: 50px;
+}
+
+/* Repeat */
+.player-repeat-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 4px;
+    transition: transform 0.2s;
+}
+
+.player-repeat-btn:hover {
+    transform: scale(1.1);
+}
+
+.player-repeat-btn img {
+    width: 26px;
+    height: 26px;
+}
+
+
+/* ==================== ПРОГРЕСС-БАР (под названием и кнопками) ==================== */
+.player-progress-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 10px;                    /* Расстояние между временем и полосой */
+    max-width: 1300px;             /* Такая же ширина как плеер */
+    margin: 8px auto 0;           /* Отступ сверху, по центру */
+    padding: 0 24px;              /* Отступы по бокам */
+}
+
+/* Время (0:00) */
+.player-time {
+    font-size: 15px;              /* Размер шрифта — меняй */
+    color: #fff;                  /* Серый цвет */
+    min-width: 36px;              /* Минимальная ширина чтобы не прыгало */
+    text-align: center;
+}
+
+/* Сама полоса прогресса */
+.progress-bar {
+    flex: 1;                      /* Занимает всё пространство */
+    height: 4px;                  /* Толщина полосы — меняй */
+    background: rgba(255, 255, 255, 0.2); /* Прозрачный белый */
+    border-radius: 2px;           /* Скругление */
+    cursor: pointer;              /* Рука при наведении */
+    position: relative;
+}
+
+/* Заполненная часть прогресса */
+.progress-fill {
+    height: 100%;
+    background: #2A1B3D;          /* Розовая полоса */
+    border-radius: 2px;
+    width: 0%;                    /* Меняется через JS */
+    transition: width 0.1s linear; /* Плавное движение */
+    position: relative;
+}
+
+/* Кружок на конце прогресса (виден при наведении) */
+.progress-fill::after {
+    content: '';
+    position: absolute;
+    right: -5px;                  /* Чуть правее края */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 10px;                  /* Размер кружка */
+    height: 10px;
+    background: #D83F87;
+    border-radius: 50%;           /* Круглый */
+    opacity: 0;                   /* Скрыт */
+    transition: opacity 0.2s;
+}
+
+/* Показываем кружок при наведении на полосу */
+.progress-bar:hover .progress-fill::after {
+    opacity: 1;
+}
+
+/* ==================== АДАПТИВ ДЛЯ МОБИЛОК ==================== */
+@media (max-width: 768px) {
+    .player-content {
+        flex-direction: column;   /* Всё в столбик */
+        gap: 8px;
+    }
+    
+    .player-track-name {
+        max-width: 100%;          /* На всю ширину */
+        text-align: center;       /* По центру */
+    }
+    
+    .player-controls {
+        gap: 12px;                /* Меньше расстояние */
+    }
+}

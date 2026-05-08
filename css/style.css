@@ -2,3 +2,6 @@
 @import url('./header.css');
 @import url('./home.css');
 @import url('./albums.css');
+@import url('./song.css');
+@import url('./player.css');
+@import url('./playlist_modal.css');

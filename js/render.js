@@ -1,6 +1,6 @@
 const carousel = document.getElementById('carousel');
 let offset = 0;
-let slideWidth = 0; // Будет вычисляться динамически
+let slideWidth = 0; 
 
 function calculateSlideWidth() {
     const container = document.querySelector('.carousel-slide');
@@ -8,8 +8,7 @@ function calculateSlideWidth() {
         const containerWidth = container.clientWidth;
         const slidesCount = document.querySelectorAll('.slide-block').length;
         if (slidesCount > 0) {
-            // Ширина слайда с учетом gap (30px)
-            slideWidth = (containerWidth - 60) / 3; // 3 альбома, gap 30px между ними
+            slideWidth = (containerWidth) / 3; 
         }
     }
     return slideWidth;
@@ -45,7 +44,7 @@ function renderAlbums(member) {
         carousel.appendChild(div);
     });
     
-    // После добавления элементов пересчитываем ширину
+    
     setTimeout(() => {
         calculateSlideWidth();
         updateCarouselButtons();

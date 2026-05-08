@@ -1,0 +1,168 @@
+/* ==================== СЕКЦИЯ ПЕСЕН ==================== */
+.songs-section {
+    display: none;               /* Скрыта по умолчанию, JS показывает */
+    background: #8065A8;          /* Тёмно-фиолетовый фон, как первая страница */
+    width: 100%;                  /* На всю ширину */
+    padding: 30px 0;              /* Отступы сверху и снизу */
+    box-sizing: border-box;       /* Паддинги не увеличивают ширину */
+}
+
+/* ==================== НАЗВАНИЕ АЛЬБОМА ==================== */
+.songs-album-title {
+    text-align: center;           /* По центру */
+    font-size: 40px;              /* Размер шрифта — меняй если съезжает */
+    font-weight: 400;             /* Жирность: 400 обычный, 700 жирный */
+    color: #fff;                  /* Белый цвет */
+    margin: 0 auto 30px auto;     /* Сверху 0, слева/справа auto (=центр), снизу 30px */
+    max-width: 800px;             /* Такая же ширина как у списка треков, чтобы не съезжало */
+    padding: 0 20px;              /* Отступы по бокам как у треклиста */
+}
+
+/* ==================== СПИСОК ТРЕКОВ ==================== */
+.songs-tracklist {
+    display: flex;
+    flex-direction: column;
+    padding-bottom: 60px;
+}
+
+/* ==================== ОДНА СТРОКА ТРЕКА ==================== */
+.track-item {
+    display: flex;
+    align-items: center; 
+    height: 70px;          
+    padding: 0px 16px;           /* Внутренние отступы: сверху/снизу 16px, слева/справа 16px — УВЕЛИЧЬ для большего блока */
+    cursor: pointer;              /* Рука при наведении */
+    transition: background 0.2s;  /* Плавная смена фона */
+    gap: 14px;                    /* Расстояние между элементами внутри строки — УВЕЛИЧЬ для большего зазора */
+}
+
+/* Фон при наведении */
+.track-item:hover {
+    background: rgb(216, 63, 135, 0.5);
+}
+
+
+/* Название активного трека */
+.track-item.active-track .track-title {
+    color: #fff;
+}
+
+/* ==================== НОМЕР ТРЕКА ==================== */
+.track-number {
+    width: 30px;                  /* Ширина блока с номером */
+    text-align: center;           /* По центру */
+    font-size: 23px;              /* Размер шрифта номера — УВЕЛИЧЬ */
+    color: #fff;                  /* Серый цвет */
+    flex-shrink: 0;               /* Не сжимается */
+}
+
+/* При наведении — скрываем номер */
+.track-item:hover .track-number {
+    display: none;
+}
+
+/* Активный трек — номер скрыт */
+.track-item.active-track .track-number {
+    display: none;
+}
+
+/* ==================== КНОПКА PLAY/PAUSE (вместо номера при наведении) ==================== */
+.track-play-mini {
+    width: 40px;                  /* Ширина кнопки — УВЕЛИЧЬ */
+    height: 40px;                 /* Высота кнопки — УВЕЛИЧЬ */
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none;                /* Скрыта по умолчанию */
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+/* При наведении — показываем */
+.track-item:hover .track-play-mini {
+    display: flex;
+}
+
+/* Активный трек — показываем всегда */
+.track-item.active-track .track-play-mini {
+    display: flex;
+}
+
+.track-play-mini img {
+    width: 35px;                  /* Размер иконки Play/Pause — УВЕЛИЧЬ */
+    height: 35px;
+}
+
+/* ==================== НАЗВАНИЕ ТРЕКА ==================== */
+.track-title {
+    flex: 1;                      /* Занимает всё доступное пространство */
+    font-size: 25px;              /* Размер шрифта названия — УВЕЛИЧЬ */
+    color: #fff;                  /* Белый */
+    font-weight: 350;             /* Обычная жирность */
+    white-space: nowrap;          /* Не переносить на новую строку */
+    overflow: hidden;             /* Скрывать если не влезает */
+    text-overflow: ellipsis;      /* Многоточие ... если не влезает */
+}
+
+/* ==================== ДЛИТЕЛЬНОСТЬ (слева от лайка при наведении) ==================== */
+.track-duration {
+    font-size: 20px;              /* Размер шрифта длительности */
+    color: #fff;                  /* Серый цвет */
+    flex-shrink: 0;
+    display: none;                /* Скрыта по умолчанию */
+    order: 1;                    /* Идёт перед лайком */
+}
+
+/* При наведении — показываем длительность */
+.track-item:hover .track-duration {
+    display: block;
+}
+
+/* Активный трек — длительность видна */
+.track-item.active-track .track-duration {
+    display: block;
+}
+
+/* ==================== ЛАЙК (после длительности) ==================== */
+.track-like-btn {
+    background: none;
+    border: none;
+    cursor: pointer;display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    transition: transform 0.2s;
+    order: 2;                     /* Идёт после длительности */
+}
+
+.track-like-btn:active {
+    transform: scale(1.3);
+}
+
+.track-like-btn img {
+    width: 30px;                  /* Размер иконки сердечка — УВЕЛИЧЬ */
+    height: 30px;
+}
+
+/* ==================== ТРОЕТОЧИЕ ==================== */
+/* ==================== ТРОЕТОЧИЕ ==================== */
+.track-more-btn { 
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    order: 3;
+}
+
+
+.track-more-btn img {
+    font-size: 40px;
+    width: 60px;                  /* ← ДОБАВЬ — размер картинки */
+    height: 60px;                 /* ← ДОБАВЬ — размер картинки */
+    object-fit: contain;          /* Сохраняет пропорции */
+    display: block;               /* ← ДОБАВЬ — убирает лишние отступы */
+}

@@ -11,7 +11,7 @@ function updateCarouselButtons() {
     if (!container || !carouselSlide) return;
     
     const containerWidth = carouselSlide.clientWidth;
-    const totalWidth = slides.length * (containerWidth / 3 + 30); // Ширина + gap
+    const totalWidth = slides.length * (containerWidth / 3);
     const maxOffset = Math.min(0, containerWidth - totalWidth);
     
     // Визуальное отключение кнопок
@@ -40,7 +40,7 @@ document.querySelector('.next')?.addEventListener('click', () => {
     if (!carouselSlide) return;
     
     const containerWidth = carouselSlide.clientWidth;
-    const slideTotalWidth = containerWidth / 3 + 30; // Ширина альбома + gap
+    const slideTotalWidth = containerWidth / 3 + 27; 
     const totalWidth = slides.length * slideTotalWidth;
     const maxOffset = Math.min(0, containerWidth - totalWidth);
     
@@ -58,7 +58,7 @@ document.querySelector('.prev')?.addEventListener('click', () => {
         if (!carouselSlide) return;
         
         const containerWidth = carouselSlide.clientWidth;
-        const slideTotalWidth = containerWidth / 3 + 30;
+        const slideTotalWidth = containerWidth / 3 + 40;
         
         offset += slideTotalWidth;
         if (offset > 0) offset = 0;
