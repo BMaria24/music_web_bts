@@ -250,7 +250,7 @@ function toggleLike(index) {
     if (isProcessingLike) return;
     isProcessingLike = true;
     
-    onst queue = playerState.playingQueue.length > 0 ? playerState.playingQueue : playerState.tracks;
+    const queue = playerState.playingQueue.length > 0 ? playerState.playingQueue : playerState.tracks;
     const track = queue[index];
     
     if (!track) {
