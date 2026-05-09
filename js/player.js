@@ -6,7 +6,7 @@ const playerState = {
     currentTrackIndex: 0,
     isPlaying: false,
     tracks: [],
-    playingQueue: [],            // ← треки, которые СЕЙЧАС в очереди (альбом или плейлист)
+    playingQueue: [],            
     playingAlbumId: null,
     likedTracks: JSON.parse(localStorage.getItem('bts_liked') || '{}'),
     repeatMode: 'none',
@@ -247,10 +247,12 @@ function updateRepeatIcon() {
 
 // ==================== ЛАЙК ====================
 function toggleLike(index) {
-    if (isProcessingLike) return;  // ← игнорируем повторные клики
+    if (isProcessingLike) return;
     isProcessingLike = true;
     
-    const track = playerState.tracks[index];
+    onst queue = playerState.playingQueue.length > 0 ? playerState.playingQueue : playerState.tracks;
+    const track = queue[index];
+    
     if (!track) {
         isProcessingLike = false;
         return;
@@ -269,7 +271,7 @@ function toggleLike(index) {
     renderTracklist(playerState.tracks);
     updatePlayerUI();
     
-    setTimeout(() => { isProcessingLike = false; }, 100); // ← разблокировка через 100мс
+    setTimeout(() => { isProcessingLike = false; }, 100);
 }
 
 function addToFavorites(track) {
@@ -347,30 +349,25 @@ audio.addEventListener('ended', () => {
 const progressBar = document.getElementById('progressBar');
 let isDragging = false;
 
-// Нажали на полосу — начинаем перетаскивать
 progressBar.addEventListener('mousedown', (e) => {
     isDragging = true;
     updateProgress(e);             // Сразу перемотать в точку клика
 });
 
-// Водим мышью с зажатой кнопкой — плавно перематываем
 document.addEventListener('mousemove', (e) => {
     if (isDragging) {
         updateProgress(e);
     }
 });
 
-// Отпустили кнопку мыши — заканчиваем
 document.addEventListener('mouseup', () => {
     isDragging = false;
 });
 
-// Функция обновления времени
 function updateProgress(e) {
     const rect = progressBar.getBoundingClientRect();
     let percent = (e.clientX - rect.left) / rect.width;
     
-    // Ограничиваем от 0 до 1
     percent = Math.max(0, Math.min(1, percent));
     
     audio.currentTime = percent * audio.duration;
@@ -420,7 +417,6 @@ function renderPlaylistList() {
         });
     });
 
-    // Обработчик на крестики
     container.querySelectorAll('.playlist-delete-btn').forEach(btn => {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
@@ -430,7 +426,7 @@ function renderPlaylistList() {
 }
 
 function deletePlaylist(name) {
-    if (name === 'Избранное') return; // избранное нельзя удалить
+    if (name === 'Избранное') return; 
     delete playerState.playlists[name];
     localStorage.setItem('bts_playlists', JSON.stringify(playerState.playlists));
     renderPlaylistList();
@@ -464,7 +460,6 @@ function addTrackToPlaylist(playlistName) {
     updatePlayerUI();
     
     closePlaylistModal();
-    /*alert(`Добавлено в «${playlistName}»`);*/
 }
 
 document.getElementById('createPlaylistBtn').addEventListener('click', () => {
@@ -497,14 +492,11 @@ function showToast(message, type = 'info') {
     const toast = document.getElementById('toast');
     const toastMessage = document.getElementById('toastMessage');
     
-    // Убираем старые классы
     toast.className = 'toast';
     
-    // Добавляем тип и показываем
     toast.classList.add(type, 'show');
     toastMessage.textContent = message;
     
-    // Автоматически скрываем через 2.5 секунды
     clearTimeout(toast._timeout);
     toast._timeout = setTimeout(() => {
         toast.classList.add('hide');
