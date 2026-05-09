@@ -127,11 +127,30 @@
             </div>
         </div>
     </div>
+    <div class="account-dropdown" id="accountDropdown">
+        <div class="account-top">
+            <div class="account-profile">
+                <img src="./images/header/logo_acc.png" alt="Аватар" class="account-avatar">
+                <span class="account-username">@user_name</span>
+            </div>
+            <button class="account-settings-btn" data-page="settings">
+                <img src="./images/header/settings.png" alt="Настройки">
+            </button>
+        </div>
+        <div class="account-divider"></div>
+        <nav class="account-menu">
+            <button class="account-menu-item" data-page="favourites">Избранное</button>
+            <button class="account-menu-item" data-page="playlists">Плейлисты</button>
+            <button class="account-menu-item" data-page="awards">Награды</button>
+            <button class="account-menu-item" data-page="tests">Тесты</button>
+        </nav>
+    </div>
     <script src="./js/albums_data.js"></script>
     <script src="./js/songs_data.js"></script>
     <script src="./js/render.js"></script>
     <script src="./js/slider.js"></script>
     <script src="./js/player.js"></script>
     <script src="./js/main.js"></script>
+    <script src="./js/account.js"></script>
 </body>
 </html>

@@ -6,6 +6,8 @@ const playerState = {
     currentTrackIndex: 0,
     isPlaying: false,
     tracks: [],
+    playingQueue: [],            // ← треки, которые СЕЙЧАС в очереди (альбом или плейлист)
+    playingAlbumId: null,
     likedTracks: JSON.parse(localStorage.getItem('bts_liked') || '{}'),
     repeatMode: 'none',
     playlists: JSON.parse(localStorage.getItem('bts_playlists') || '{}'),
@@ -32,14 +34,7 @@ function showTracks(albumId) {
     
     playerState.currentAlbumId = albumId;
     playerState.tracks = tracks;
-    playerState.currentTrackIndex = 0;  // ← СБРОС индекса
-    
-    // Остановить текущее воспроизведение
-    audio.pause();
-    audio.src = '';
-    playerState.isPlaying = false;
-    updatePlayerUI();
-    
+
     const albumInfo = getAlbumInfo(albumId);
     document.getElementById('songsAlbumTitle').textContent = albumInfo.title;
     renderTracklist(tracks);
@@ -67,7 +62,7 @@ function renderTracklist(tracks) {
 
         const key = track.url || index;
         const isLiked = playerState.likedTracks[key];
-        const isActive = (playerState.currentAlbumId &&
+        const isActive = (playerState.playingAlbumId === playerState.currentAlbumId &&
             playerState.currentTrackIndex === index && playerState.isPlaying);
 
         if (isActive) div.classList.add('active-track');
@@ -90,6 +85,9 @@ function renderTracklist(tracks) {
 
         div.addEventListener('click', (e) => {
             if (e.target.closest('button')) return;
+            // ← ДОБАВЬ ЭТИ ДВЕ СТРОКИ:
+            playerState.playingQueue = [...playerState.tracks];
+            playerState.playingAlbumId = playerState.currentAlbumId;
             playTrack(index);
         });
         container.appendChild(div);
@@ -99,6 +97,9 @@ function renderTracklist(tracks) {
         btn.addEventListener('click', (e) => {
             e.stopPropagation();
             const index = parseInt(btn.dataset.index);
+            // ← ДОБАВЬ ЭТИ ДВЕ СТРОКИ:
+            playerState.playingQueue = [...playerState.tracks];
+            playerState.playingAlbumId = playerState.currentAlbumId;
             if (isCurrentTrack(index) && playerState.isPlaying) {
                 pauseTrack();
             } else {
@@ -124,35 +125,36 @@ function renderTracklist(tracks) {
 
 // ==================== ВОСПРОИЗВЕДЕНИЕ ====================
 function playTrack(index) {
-    const track = playerState.tracks[index];
+    // Если это новый клик по треку — фиксируем очередь
+    if (playerState.playingQueue.length === 0) {
+        playerState.playingQueue = [...playerState.tracks];
+        playerState.playingAlbumId = playerState.currentAlbumId;
+    }
+    
+    const queue = playerState.playingQueue;
+    const track = queue[index];
+    
     if (!track || !track.url) {
         showToast(`Нет файла для: ${track?.title || 'трека'}`);
         return;
     }
 
-    const isNewTrack = (playerState.currentTrackIndex !== index);
     playerState.currentTrackIndex = index;
-
-    // Загружаем новый источник ТОЛЬКО если трек сменился
-    if (isNewTrack) {
-        audio.src = track.url;
-        audio.load();
-    }
+    audio.src = track.url;
 
     audio.play()
         .then(() => {
             playerState.isPlaying = true;
             playerBar.style.display = 'block';
             updatePlayerUI();
-            renderTracklist(playerState.tracks);
+            if (playerState.currentAlbumId === playerState.playingAlbumId) {
+                renderTracklist(playerState.tracks);
+            }
         })
         .catch(err => {
             console.error('Ошибка воспроизведения:', err);
             playerState.isPlaying = false;
             updatePlayerUI();
-            // Если ошибка — пробуем загрузить заново
-            audio.src = track.url;
-            audio.load();
             audio.play().catch(() => {
                 showToast('Не удалось воспроизвести: ' + track.title);
             });
@@ -163,7 +165,9 @@ function pauseTrack() {
     audio.pause();
     playerState.isPlaying = false;
     updatePlayerUI();
-    renderTracklist(playerState.tracks);
+    if (playerState.currentAlbumId === playerState.playingAlbumId) {
+        renderTracklist(playerState.tracks);
+    }
 }
 
 function togglePlayPause() {
@@ -186,9 +190,8 @@ function isCurrentTrack(index) {
 
 // ==================== НАВИГАЦИЯ ====================
 document.getElementById('prevTrack').addEventListener('click', () => {
-    if (!playerState.tracks.length) return;
+    if (!playerState.playingQueue.length) return;
     
-    // Если зациклен один трек — перематываем на начало этого же трека
     if (playerState.repeatMode === 'one') {
         audio.currentTime = 0;
         audio.play().catch(() => {});
@@ -197,21 +200,20 @@ document.getElementById('prevTrack').addEventListener('click', () => {
     
     const i = playerState.currentTrackIndex > 0 
         ? playerState.currentTrackIndex - 1 
-        : playerState.tracks.length - 1;
+        : playerState.playingQueue.length - 1;
     playTrack(i);
 });
 
 document.getElementById('nextTrack').addEventListener('click', () => {
-    if (!playerState.tracks.length) return;
+    if (!playerState.playingQueue.length) return;
     
-    // Если зациклен один трек — перематываем на начало этого же трека
     if (playerState.repeatMode === 'one') {
         audio.currentTime = 0;
         audio.play().catch(() => {});
         return;
     }
     
-    const i = playerState.currentTrackIndex < playerState.tracks.length - 1 
+    const i = playerState.currentTrackIndex < playerState.playingQueue.length - 1 
         ? playerState.currentTrackIndex + 1 
         : 0;
     playTrack(i);
@@ -296,7 +298,8 @@ document.getElementById('playerLikeBtn').addEventListener('click', () => {
 
 // ==================== UI ПЛЕЕРА ====================
 function updatePlayerUI() {
-    const track = playerState.tracks[playerState.currentTrackIndex];
+    const queue = playerState.playingQueue.length > 0 ? playerState.playingQueue : playerState.tracks;
+    const track = queue[playerState.currentTrackIndex];
 
     if (playerState.isPlaying) {
         document.getElementById('playPauseIcon').src = './images/player/pause.png';
