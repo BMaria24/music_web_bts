@@ -1,3 +1,5 @@
+let isProcessingLike = false;
+
 // ==================== СОСТОЯНИЕ ПЛЕЕРА ====================
 const playerState = {
     currentAlbumId: null,
@@ -24,12 +26,20 @@ document.addEventListener('click', (e) => {
 function showTracks(albumId) {
     const tracks = songsData[albumId];
     if (!tracks || tracks.length === 0) {
-        alert('Для этого альбома треки ещё не добавлены.');
+        showToast('Для этого альбома треки ещё не добавлены.', 'info');
         return;
     }
+    
     playerState.currentAlbumId = albumId;
     playerState.tracks = tracks;
-
+    playerState.currentTrackIndex = 0;  // ← СБРОС индекса
+    
+    // Остановить текущее воспроизведение
+    audio.pause();
+    audio.src = '';
+    playerState.isPlaying = false;
+    updatePlayerUI();
+    
     const albumInfo = getAlbumInfo(albumId);
     document.getElementById('songsAlbumTitle').textContent = albumInfo.title;
     renderTracklist(tracks);
@@ -116,7 +126,7 @@ function renderTracklist(tracks) {
 function playTrack(index) {
     const track = playerState.tracks[index];
     if (!track || !track.url) {
-        alert(`Нет файла для: ${track?.title || 'трека'}`);
+        showToast(`Нет файла для: ${track?.title || 'трека'}`);
         return;
     }
 
@@ -144,7 +154,7 @@ function playTrack(index) {
             audio.src = track.url;
             audio.load();
             audio.play().catch(() => {
-                alert('Не удалось воспроизвести: ' + track.title);
+                showToast('Не удалось воспроизвести: ' + track.title);
             });
         });
 }
@@ -235,8 +245,14 @@ function updateRepeatIcon() {
 
 // ==================== ЛАЙК ====================
 function toggleLike(index) {
+    if (isProcessingLike) return;  // ← игнорируем повторные клики
+    isProcessingLike = true;
+    
     const track = playerState.tracks[index];
-    if (!track) return;
+    if (!track) {
+        isProcessingLike = false;
+        return;
+    }
     const key = track.url || index;
     
     if (playerState.likedTracks[key]) {
@@ -250,6 +266,8 @@ function toggleLike(index) {
     localStorage.setItem('bts_liked', JSON.stringify(playerState.likedTracks));
     renderTracklist(playerState.tracks);
     updatePlayerUI();
+    
+    setTimeout(() => { isProcessingLike = false; }, 100); // ← разблокировка через 100мс
 }
 
 function addToFavorites(track) {
@@ -280,9 +298,14 @@ document.getElementById('playerLikeBtn').addEventListener('click', () => {
 function updatePlayerUI() {
     const track = playerState.tracks[playerState.currentTrackIndex];
 
-    if (playerState.isPlaying && track) {
-        playerBar.style.display = 'block';
+    if (playerState.isPlaying) {
         document.getElementById('playPauseIcon').src = './images/player/pause.png';
+    } else {
+        document.getElementById('playPauseIcon').src = './images/player/play.png';
+    }
+
+    if (track) {
+        playerBar.style.display = 'block';
         document.getElementById('playerTrackTitle').textContent = track.title;
         
         const key = track.url || playerState.currentTrackIndex;
@@ -290,9 +313,8 @@ function updatePlayerUI() {
             `./images/player/${playerState.likedTracks[key] ? 'like_filled_player.png' : 'like_empty_player.png'}`;
         
         updateRepeatIcon();
-    } else {
-        document.getElementById('playPauseIcon').src = './images/player/play.png';
-        if (!audio.src) playerBar.style.display = 'none';
+    } else if (!audio.src) {
+        playerBar.style.display = 'none';
     }
 }
 
@@ -374,51 +396,80 @@ document.getElementById('playlistModal').addEventListener('click', (e) => {
 function renderPlaylistList() {
     const container = document.getElementById('playlistList');
     const names = Object.keys(playerState.playlists);
-    
+
     if (names.length === 0) {
         container.innerHTML = '<div style="color:#888;text-align:center;padding:20px;">Плейлистов пока нет</div>';
-    } else {
-        container.innerHTML = names.map(name => `
-            <div class="playlist-item" data-playlist="${name}">
-                <span class="playlist-item-name">${name === 'Избранное' ? '⭐ ' : ''}${name}</span>
-                <span class="playlist-item-count">${playerState.playlists[name].length} треков</span>
-            </div>
-        `).join('');
-        
-        container.querySelectorAll('.playlist-item').forEach(item => {
-            item.addEventListener('click', () => {
-                addTrackToPlaylist(item.dataset.playlist);
-            });
-        });
+        return;
     }
+
+    container.innerHTML = names.map(name => `
+        <div class="playlist-item" data-playlist="${name}">
+            <span class="playlist-item-name">${name}</span>
+            <span class="playlist-item-count">${playerState.playlists[name].length}</span>
+            ${name !== 'Избранное' ? `<button class="playlist-delete-btn" data-delete="${name}">✕</button>` : ''}
+        </div>
+    `).join('');
+
+    container.querySelectorAll('.playlist-item').forEach(item => {
+        item.addEventListener('click', (e) => {
+            if (e.target.closest('.playlist-delete-btn')) return;
+            addTrackToPlaylist(item.dataset.playlist);
+        });
+    });
+
+    // Обработчик на крестики
+    container.querySelectorAll('.playlist-delete-btn').forEach(btn => {
+        btn.addEventListener('click', (e) => {
+            e.stopPropagation();
+            deletePlaylist(btn.dataset.delete);
+        });
+    });
+}
+
+function deletePlaylist(name) {
+    if (name === 'Избранное') return; // избранное нельзя удалить
+    delete playerState.playlists[name];
+    localStorage.setItem('bts_playlists', JSON.stringify(playerState.playlists));
+    renderPlaylistList();
+    showToast('Плейлист «' + name + '» удалён', 'info');
 }
 
 function addTrackToPlaylist(playlistName) {
     const track = playerState.tracks[playerState.currentTrackForPlaylist];
     if (!track) return;
-    
+
     if (playerState.playlists[playlistName].some(t => t.url === track.url)) {
-        alert('Этот трек уже есть в плейлисте!');
+        showToast('Этот трек уже есть в плейлисте!');
         return;
     }
-    
+
     playerState.playlists[playlistName].push({
         title: track.title,
         url: track.url,
         duration: track.duration
     });
-    
+
+    if (playlistName === 'Избранное') {
+        const key = track.url || playerState.currentTrackForPlaylist;
+        playerState.likedTracks[key] = true;
+        localStorage.setItem('bts_liked', JSON.stringify(playerState.likedTracks));
+    }
+
     localStorage.setItem('bts_playlists', JSON.stringify(playerState.playlists));
+    
+    renderTracklist(playerState.tracks);
+    updatePlayerUI();
+    
     closePlaylistModal();
-    alert(`✅ Добавлено в «${playlistName}»`);
+    /*alert(`Добавлено в «${playlistName}»`);*/
 }
 
 document.getElementById('createPlaylistBtn').addEventListener('click', () => {
     const input = document.getElementById('newPlaylistName');
     const name = input.value.trim();
     
-    if (!name) return alert('Введите название плейлиста');
-    if (playerState.playlists[name]) return alert('Плейлист с таким названием уже существует');
+    if (!name) return showToast('Введите название плейлиста');
+    if (playerState.playlists[name]) return showToast('Плейлист с таким названием уже существует');
     
     playerState.playlists[name] = [];
     localStorage.setItem('bts_playlists', JSON.stringify(playerState.playlists));
@@ -437,3 +488,22 @@ function formatTime(s) {
 // ==================== ИНИЦИАЛИЗАЦИЯ ====================
 updatePlayerUI();
 console.log('🎵 BTS Music готов!');
+
+// ==================== КАСТОМНЫЕ УВЕДОМЛЕНИЯ ====================
+function showToast(message, type = 'info') {
+    const toast = document.getElementById('toast');
+    const toastMessage = document.getElementById('toastMessage');
+    
+    // Убираем старые классы
+    toast.className = 'toast';
+    
+    // Добавляем тип и показываем
+    toast.classList.add(type, 'show');
+    toastMessage.textContent = message;
+    
+    // Автоматически скрываем через 2.5 секунды
+    clearTimeout(toast._timeout);
+    toast._timeout = setTimeout(() => {
+        toast.classList.add('hide');
+    }, 2500);
+}

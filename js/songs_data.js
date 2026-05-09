@@ -145,8 +145,20 @@ const songsData = {
     'jhope_alb9': [],
     'jhope_alb10': [],
 
-    'jimin_alb1': [],
-    'jimin_alb2': [],
+    'jimin_alb1': [
+        { 
+            title: 'Promise',                    
+            url: './music/jimin/Promise/Jimin_BTS_-_Promise_64673008.mp3', 
+            duration: '2:31' 
+        }
+    ],
+    'jimin_alb2': [
+        { 
+            title: 'Christmas Love',                    
+            url: './music/jimin/Christmas Love/Jimin_BTS_-_Christmas_Love_72076106.mp3', 
+            duration: '3:17' 
+        }
+    ],
     'jimin_alb3': [
         { 
             title: 'Face off',                    
@@ -184,7 +196,13 @@ const songsData = {
             duration: '3:53' 
         }
     ],
-    'jimin_alb4': [],
+    'jimin_alb4': [
+        { 
+            title: 'Closer Than This',                    
+            url: './music/jimin/Closer Than This/Jimin_BTS_-_Closer_Than_This_77127836.mp3', 
+            duration: '3:43' 
+        }
+    ],
     'jimin_alb5': [],
 
     'v_alb1': [],
