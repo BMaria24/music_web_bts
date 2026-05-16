@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bts music</title>
+    <link rel="stylesheet" href="./css/style.css">
+</head>
+<div class="toast" id="toast">
+    <span id="toastMessage"></span>
+</div>
+<body>
+    <header class="header">
+        <button class="account_btn" id="accountBtn">
+            <img src="./images/header/logo_acc.png" alt="Логотип аккаунта" class="header_logo">
+        </button>
+        <nav class="header_nav">
+            <ul class="header_list">
+                <li><a href="#home_main">Home</a></li>
+                <li><a href="#albums_main">Albums</a></li>
+                <li><a href="#songs_section">Songs</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <main class="main">
+        <div class="container">
+            <section id="home_main" class="home_main">
+                <button class="btn_home btn_home_rm" data-member="rm">
+                        <img src="./images/home/rm_home.png" alt="кнопка rm">
+                </button>
+                <button class="btn_home btn_home_jin" data-member="jin">
+                        <img src="./images/home/jin_home.png" alt="кнопка jin">
+                </button>
+                <button class="btn_home btn_home_suga" data-member="suga">
+                        <img src="./images/home/suga_home.png" alt="кнопка suga">
+                </button>
+                <button class="btn_home btn_home_jhope" data-member="jhope">
+                        <img src="./images/home/jhope_home.png" alt="кнопка jhope">
+                </button>
+                <button class="btn_home btn_home_jimin" data-member="jimin">
+                        <img src="./images/home/jimin_home.png" alt="кнопка jimin">
+                </button>
+                <button class="btn_home btn_home_v" data-member="v">
+                        <img src="./images/home/v_home.png" alt="кнопка v">
+                </button>
+                <button class="btn_home btn_home_jk" data-member="jk">
+                        <img src="./images/home/jk_home.png" alt="кнопка jk">
+                </button>
+                <button class="btn_home btn_home_bts" data-member="bts">
+                        <img src="./images/home/bts_home.png" alt="кнопка bts">
+                </button>
+            </section>
+
+            <section id="albums_main" class="albums_main">
+                <div class="carousel-container">
+                    <button class="carousel-btn prev">
+                        <img src="./images/albums/left_move.png" alt="Влево">
+                    </button>
+                    <div class="carousel-slide" id="carousel"></div>
+                    <button class="carousel-btn next">
+                        <img src="./images/albums/right_move.png" alt="Вправо">
+                    </button>
+                </div>
+            </section>
+
+            <section id="songs_section" class="songs-section">
+                <h2 id="songsAlbumTitle" class="songs-album-title"></h2>
+                <div class="songs-tracklist" id="songsTracklist"></div>
+            </section>
+
+            <section id="favourites_section" class="songs-section" style="display: none;">
+                <h2 class="songs-album-title">Избранное</h2>
+                <div class="songs-tracklist" id="favouritesTracklist"></div>
+                <div id="favouritesEmpty" style="display: none; text-align: center; color: #fff; padding: 20px;">
+                    Здесь пока ничего нет. Лайкните трек, чтобы добавить в избранное.
+                </div>
+            </section>
+
+            <!-- Страница плейлистов -->
+            <section id="playlists_section" class="songs-section" style="display: none;">
+                <h2 class="songs-album-title">Плейлисты</h2>
+                <div class="playlists-grid" id="playlistsGrid">
+                    <!-- Плейлисты генерируются JS -->
+                </div>
+            </section>
+
+            <!-- Страница одного плейлиста -->
+            <section id="playlist_detail_section" class="songs-section" style="display: none;">
+                <h2 class="songs-album-title" id="playlistDetailTitle">Название плейлиста</h2>
+                <div class="songs-tracklist" id="playlistDetailTracks"></div>
+                <div id="playlistDetailEmpty" style="display: none; text-align: center; color: #888; padding: 40px;">
+                    В этом плейлисте пока нет треков. Добавьте их через ⋮ на треке.
+                </div>
+            </section>
+
+            <section id="auth_section" class="auth-section" style="display: none;">
+                <div class="auth-container">
+                    <h2 class="auth-title" id="authTitle">Регистрация</h2>
+                    
+                    <div class="auth-form">
+                        <input type="text" id="authUsername" class="auth-input" placeholder="Имя пользователя">
+                        <input type="password" id="authPassword" class="auth-input" placeholder="Пароль">
+                        <button id="authSubmitBtn" class="auth-submit-btn">Зарегистрироваться</button>
+                    </div>
+                    
+                    <p class="auth-switch">
+                        <span id="authSwitchText">Уже есть аккаунт?</span>
+                        <button id="authSwitchBtn" class="auth-switch-btn">Войти</button>
+                    </p>
+                </div>
+            </section>
+
+            <!-- Страница тестов -->
+            <section id="tests_section" class="tests-section" style="display: none;">
+                <div class="container">
+                    <h2 class="tests-title">Тесты</h2>
+                    <div class="tests-grid" id="testsGrid"></div>
+                </div>
+            </section>
+
+            <!-- Страница прохождения теста -->
+            <section id="test_quiz_section" class="tests-section" style="display: none;">
+                <div class="container">
+                    <h2 class="tests-title" id="testQuizTitle">Тест</h2>
+                    <div class="test-question" id="testQuestion"></div>
+                    <div class="test-options" id="testOptions"></div>
+                    <button id="testNextBtn" class="test-next-btn">Далее</button>
+                </div>
+            </section>
+
+            <!-- Результат теста -->
+            <section id="test_result_section" class="tests-section" style="display: none;">
+                <div class="container">
+                    <h2 class="tests-title">Результат</h2>
+                    <div class="test-result" id="testResult"></div>
+                    <button id="testBackBtn" class="test-back-btn">К тестам</button>
+                </div>
+            </section>
+
+            <!-- Страница настроек -->
+            <section id="settings_section" class="settings-section" style="display: none;">
+                <div class="settings-container">
+                    <h2 class="settings-title">Настройки</h2>
+                    
+                    <div class="settings-avatar-block">
+                        <img id="settingsAvatar" src="./images/header/logo_acc.png" alt="Аватар" class="settings-avatar">
+                    </div>
+                    
+                    <div class="settings-name-block">
+                        <label class="settings-label">Имя пользователя</label>
+                        <div class="settings-name-row">
+                            <input type="text" id="settingsUsername" class="settings-input" value="@user_name">
+                            <button id="saveNameBtn" class="settings-save-btn">Сохранить</button>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-level-block">
+                        <label class="settings-label">Уровень</label>
+                        <div class="settings-level-info">
+                            <span class="settings-level-badge" id="settingsLevelBadge">1</span>
+                            <div class="settings-progress-bar">
+                                <div class="settings-progress-fill" id="settingsProgressFill"></div>
+                            </div>
+                            <span class="settings-progress-text" id="settingsProgressText">0/5 треков</span>
+                        </div>
+                    </div>
+                    
+                    <div class="settings-avatars-block">
+                        <label class="settings-label">Мои аватарки</label>
+                        <div class="settings-avatars-grid" id="settingsAvatarsGrid"></div>
+                    </div>
+                    
+                    <button id="logoutBtn" class="settings-logout-btn">Выйти</button>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="player-bar" id="playerBar">
+        <div class="player-content">
+            <span id="playerTrackTitle" class="player-track-name">Название трека</span>
+            
+            <div class="player-controls">
+                <button id="playerLikeBtn" class="player-like-btn">
+                    <img id="playerLikeIcon" src="./images/player/like_empty_player.png" alt="Like">
+                </button>
+                <button id="prevTrack" class="player-ctrl-btn">
+                    <img src="./images/player/prev.png" alt="Назад">
+                </button>
+                <button id="playPauseBtn" class="player-ctrl-btn player-play-main">
+                    <img id="playPauseIcon" src="./images/player/play.png" alt="Play">
+                </button>
+                <button id="nextTrack" class="player-ctrl-btn">
+                    <img src="./images/player/next.png" alt="Вперёд">
+                </button>
+                <button id="repeatBtn" class="player-repeat-btn" title="Играть подряд">
+                    <img id="repeatIcon" src="./images/player/repeat_all.png" alt="Repeat">
+                </button>
+            </div>
+        </div>
+    
+    <!-- Прогресс-бар -->
+        <div class="player-progress-wrapper">
+            <span class="player-time" id="currentTime">0:00</span>
+            <div class="progress-bar" id="progressBar">
+                <div class="progress-fill" id="progressFill"></div>
+            </div>
+            <span class="player-time" id="durationTime">0:00</span>
+        </div>
+        
+        <audio id="audioPlayer" preload="auto"></audio>
+    </div>
+    <!-- Модалка "Добавить в плейлист" -->
+    <div class="playlist-modal-overlay" id="playlistModal">
+        <div class="playlist-modal">
+            <h3>Добавить в плейлист</h3>
+            <div class="playlist-list" id="playlistList"></div>
+            <div class="playlist-create">
+                <input type="text" id="newPlaylistName" placeholder="Название нового плейлиста">
+                <button id="createPlaylistBtn">Создать</button>
+            </div>
+        </div>
+    </div>
+    <div class="account-dropdown" id="accountDropdown">
+        <div class="account-top">
+            <div class="account-profile">
+                <div class="account-avatar-wrapper">
+                    <img src="./images/header/logo_acc.png" alt="Аватар" class="account-avatar">
+                    <span class="account-level-badge">3</span>
+                </div>
+                <span class="account-username">@user_name</span>
+            </div>
+            <button class="account-settings-btn" data-page="settings">
+                <img src="./images/header/settings.png" alt="Настройки">
+            </button>
+        </div>
+        <div class="account-divider"></div>
+        <nav class="account-menu">
+            <button class="account-menu-item" data-page="favourites">Избранное</button>
+            <button class="account-menu-item" data-page="playlists">Плейлисты</button>
+            <!--<button class="account-menu-item" data-page="awards">Награды</button>-->
+            <button class="account-menu-item" data-page="tests">Тесты</button>
+        </nav>
+    </div>
+    <!-- Модалка создания плейлиста -->
+    <div class="playlist-modal-overlay" id="createPlaylistModal">
+        <div class="playlist-modal">
+            <h3>Новый плейлист</h3>
+            <div class="playlist-create">
+                <input type="text" id="createPlaylistInput" placeholder="Название плейлиста">
+                <button id="confirmCreatePlaylistBtn">Создать</button>
+            </div>
+        </div>
+    </div>
+    <script src="./js/api.js"></script>
+    <script src="./js/auth.js"></script>
+    <script src="./js/albums_data.js"></script>
+    <script src="./js/songs_data.js"></script>
+    <script src="./js/render.js"></script>
+    <script src="./js/slider.js"></script>
+    <script src="./js/player.js"></script>
+    <script src="./js/main.js"></script>
+    <script src="./js/account.js"></script>
+    <script src="./js/favourites.js"></script>
+    <script src="./js/playlists_page.js"></script>
+    <script src="./js/tests.js"></script>
+    <script src="./js/settings.js"></script>
+</body>
+</html>

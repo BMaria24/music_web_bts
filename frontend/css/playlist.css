@@ -1,0 +1,149 @@
+/* ==================== СЕТКА ПЛЕЙЛИСТОВ ==================== */
+.playlists-grid {
+    display: flex;
+    flex-wrap: wrap;              /* Карточки переносятся на новую строку */
+    gap: 50px;                    /* Расстояние между карточками */
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+/* Карточка плейлиста */
+.playlist-card {
+    width: 220px;                 /* Размер квадрата */
+    height: 220px;
+    border-radius: 16px;          /* Скругление углов */
+    cursor: pointer;
+    position: relative;
+    transition: transform 0.2s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-card:hover {
+    transform: scale(1.03);       /* Лёгкое увеличение при наведении */
+}
+
+/* Избранное — розовый квадрат */
+.playlist-card.favourites {
+    background: #D83F87;
+}
+
+/* Обычные плейлисты — синий квадрат */
+.playlist-card.custom {
+    background: #44318D;
+}
+
+/* Квадрат "Создать" — тёмный с пунктиром и плюсом */
+.playlist-card.create-new {
+    background: rgba(128, 101, 168, 0.3);
+    border: 2px dashed rgba(255, 255, 255, 0.3);
+    font-size: 40px;
+    color: rgba(255, 255, 255, 0.5);
+}
+
+.playlist-card.create-new:hover {
+    background: rgba(128, 101, 168, 0.5);
+}
+
+/* Название на карточке */
+.playlist-card-name {
+    color: #fff;
+    font-size: 16px;
+    font-weight: 500;
+    text-align: center;
+    padding: 12px;
+    word-break: break-word;       /* Перенос длинных названий */
+}
+
+/* Крестик удаления на карточке */
+.playlist-card-delete {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 24px;
+    height: 24px;
+    background: rgba(0, 0, 0, 0.3);
+    border: none;
+    border-radius: 50%;
+    color: #fff;
+    font-size: 14px;
+    cursor: pointer;
+    display: none;                /* Скрыт, виден при наведении */
+    align-items: center;
+    justify-content: center;
+}
+
+.playlist-card:hover .playlist-card-delete {
+    display: flex;                /* Показывается при наведении на карточку */
+}
+
+.playlist-card-delete:hover {
+    background: rgba(0, 0, 0, 0.6);
+}
+
+/* ==================== ТРЕКИ ВНУТРИ ПЛЕЙЛИСТА ==================== */
+
+/* Крестик удаления трека */
+.track-remove-btn {
+    background: none;
+    border: none;
+    cursor: pointer;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #999;
+    font-size: 16px;
+    transition: all 0.2s;
+    border-radius: 50%;
+}
+
+.track-remove-btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #D83F87;
+}
+
+/* В плейлисте: лайк и крестик ВСЕГДА видны */
+#playlistDetailTracks .track-like-btn {
+    opacity: 1;
+}
+
+#playlistDetailTracks .track-remove-btn {
+    opacity: 1;
+}
+
+/* Время — скрыто, видно только при наведении */
+#playlistDetailTracks .track-duration {
+    display: none;
+}
+
+#playlistDetailTracks .track-item:hover .track-duration {
+    display: block;
+}
+
+/* Номер скрывается при наведении */
+#playlistDetailTracks .track-item:hover .track-number {
+    display: none;
+}
+
+/* Play-кнопка при наведении */
+#playlistDetailTracks .track-item:hover .track-play-mini {
+    display: flex;
+}
+
+/* В плейлисте: правильный порядок */
+#playlistDetailTracks .track-duration {
+    order: 1;                     /* Время первое */
+}
+
+#playlistDetailTracks .track-like-btn {
+    order: 2;                     /* Лайк второе */
+}
+
+#playlistDetailTracks .track-remove-btn {
+    order: 3;                     /* Крестик третий */
+}
+

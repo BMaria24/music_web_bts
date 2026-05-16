@@ -1,0 +1,186 @@
+.settings-section {
+    display: none;
+    background: #8065A8;
+    width: 100%;
+    padding: 40px 0 120px;
+}
+
+.settings-container {
+    max-width: 500px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.settings-title {
+    text-align: center;
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.settings-avatar-block {
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+.settings-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #D83F87;
+    object-fit: cover;
+}
+
+.settings-name-block {
+    margin-bottom: 24px;
+}
+
+.settings-label {
+    display: block;
+    color: rgba(255,255,255,0.7);
+    font-size: 14px;
+    margin-bottom: 8px;
+}
+
+.settings-name-row {
+    display: flex;
+    gap: 10px;
+}
+
+.settings-input {
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 10px;
+    border: 1px solid rgba(255,255,255,0.2);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    font-family: "Labrada", serif;
+    font-size: 16px;
+    outline: none;
+}
+
+.settings-input:focus {
+    border-color: #D83F87;
+}
+
+.settings-save-btn {
+    padding: 12px 20px;
+    background: #D83F87;
+    border: none;
+    border-radius: 10px;
+    color: #fff;
+    font-family: "Labrada", serif;
+    font-size: 14px;
+    cursor: pointer;
+    transition: all 0.2s;
+    white-space: nowrap;
+}
+
+.settings-save-btn:hover {
+    background: #e0509a;
+}
+
+.settings-level-block {
+    margin-bottom: 24px;
+}
+
+.settings-level-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.settings-level-badge {
+    width: 40px;
+    height: 40px;
+    background: #D83F87;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 600;
+    color: #fff;
+    flex-shrink: 0;
+}
+
+.settings-progress-bar {
+    flex: 1;
+    height: 8px;
+    background: rgba(255,255,255,0.2);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.settings-progress-fill {
+    height: 100%;
+    background: #D83F87;
+    border-radius: 4px;
+    width: 0%;
+    transition: width 0.3s;
+}
+
+.settings-progress-text {
+    font-size: 13px;
+    color: rgba(255,255,255,0.7);
+    white-space: nowrap;
+    min-width: 80px;
+}
+
+.settings-avatars-block {
+    margin-bottom: 30px;
+}
+
+.settings-avatars-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+}
+
+.settings-avatar-item {
+    width: 64px;
+    height: 64px;
+    border-radius: 50%;
+    border: 2px solid transparent;
+    cursor: pointer;
+    object-fit: cover;
+    transition: all 0.2s;
+}
+
+.settings-avatar-item.unlocked {
+    border-color: rgba(255,255,255,0.3);
+}
+
+.settings-avatar-item.unlocked:hover {
+    border-color: #D83F87;
+    transform: scale(1.1);
+}
+
+.settings-avatar-item.active {
+    border-color: #D83F87;
+    box-shadow: 0 0 10px #D83F87;
+}
+
+.settings-avatar-item.locked {
+    opacity: 0.3;
+    cursor: not-allowed;
+    filter: grayscale(100%);
+}
+
+.settings-logout-btn {
+    display: block;
+    width: 100%;
+    padding: 14px;
+    background: rgba(68, 49, 141, 0.2);
+    border: 1px solid rgba(68, 49, 141, 0.5);
+    border-radius: 12px;
+    color: #fff;
+    font-family: "Labrada", serif;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.settings-logout-btn:hover {
+    background: rgba(68, 49, 141, 0.4);
+}

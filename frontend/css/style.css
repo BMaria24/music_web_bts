@@ -1,0 +1,15 @@
+@import url('https://fonts.googleapis.com/css2?family=Labrada:ital,wght@0,100..900;1,100..900&display=swap');
+
+@import url('./base.css');
+@import url('./header.css');
+@import url('./home.css');
+@import url('./albums.css');
+@import url('./song.css');
+@import url('./player.css');
+@import url('./playlist_modal.css');
+@import url('./toast.css');
+@import url('./account.css');
+@import url('./playlist.css');
+@import url('./auth.css');
+@import url('./tests.css');
+@import url('./settings.css');

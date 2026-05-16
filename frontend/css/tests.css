@@ -1,0 +1,115 @@
+.tests-section {
+    display: none;
+    background: #8065A8;
+    width: 100%;
+    padding: 40px 0 120px;
+    min-height: 400px;
+}
+
+.tests-title {
+    text-align: center;
+    font-size: 32px;
+    color: #fff;
+    margin-bottom: 30px;
+}
+
+.tests-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 24px;
+    max-width: 800px;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+.test-card {
+    width: 180px;
+    height: 180px;
+    background: #44318D;
+    border-radius: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #fff;
+    font-size: 20px;
+    text-align: center;
+    padding: 20px;
+    transition: transform 0.2s;
+}
+
+.test-card:hover {
+    transform: scale(1.03);
+    background: #D83F87;
+}
+
+.test-question {
+    color: #fff;
+    font-size: 22px;
+    text-align: center;
+    max-width: 600px;
+    margin: 0 auto 30px;
+}
+
+.test-options {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.test-option {
+    padding: 16px 20px;
+    background: rgba(255,255,255,0.1);
+    border: 2px solid transparent;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-align: left;
+}
+
+.test-option:hover {
+    background: rgba(216,63,135,0.3);
+}
+
+.test-option.selected {
+    border-color: #D83F87;
+    background: rgba(216,63,135,0.2);
+}
+
+.test-option.correct {
+    border-color: #4CAF50;
+    background: rgba(76,175,80,0.2);
+}
+
+.test-option.wrong {
+    border-color: #f44336;
+    background: rgba(244,67,54,0.2);
+}
+
+.test-next-btn, .test-back-btn {
+    display: block;
+    margin: 30px auto 0;
+    padding: 14px 40px;
+    background: #D83F87;
+    border: none;
+    border-radius: 12px;
+    color: #fff;
+    font-size: 16px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.test-next-btn:hover, .test-back-btn:hover {
+    background: #e0509a;
+}
+
+.test-result {
+    text-align: center;
+    color: #fff;
+    font-size: 24px;
+    padding: 40px;
+}
